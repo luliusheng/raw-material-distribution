@@ -4,51 +4,52 @@
 #include<string.h>
 #include "ACO.h"
 
-void Update_Pheromone_Function(struct factory *factoryInfo,struct ant *antInfo,double (*pheromone)[FACTORY_COUNT+1],double (*distance)[FACTORY_COUNT+1],double *pheromoneDeliverConst)  //¸üÐÂÃ¿ÌõÂ·¾¶ÉÏµÃÐÅÏ¢ËØ
+
+void Update_Pheromone_Function(struct factory *factoryInfo,struct ant *antInfo,double (*pheromone)[FACTORY_COUNT+1],double (*distance)[FACTORY_COUNT+1],double *pheromoneDeliverConst)  //ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
 {
 	int i,j;	
        for (i=0;i<ANT_COUNT;i++)
-       {           //¼ÆËãÃ¿Ò»Ö»ÂìÒÏ×ß¹ýµÄÂ·¾¶µÄ×Ü¹¦
+       {           //ï¿½ï¿½ï¿½ï¿½Ã¿Ò»Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½
 		antInfo[i].totalWork=Calculate_Total_Work_Function(factoryInfo,antInfo[i].tabuRoute);    
        }
 	for (i=0;i<FACTORY_COUNT+1;i++)
 	{
 		for (j=0;j<FACTORY_COUNT+1;j++)
 		{
-			pheromone[i][j]=pheromone[i][j]*(*pheromoneDeliverConst);  //ÏÈ¼ÆËã³öÐÅÏ¢ËØµÄÏûÉ¢
+			pheromone[i][j]=pheromone[i][j]*(*pheromoneDeliverConst);  //ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Øµï¿½ï¿½ï¿½É¢
 		}
 	}
-	for (i=0;i<ANT_COUNT;i++)    //Ò»´ÎËÑË÷Ö®ºóµÄÐÅÏ¢ËØµÄ¸üÐÂ
+	for (i=0;i<ANT_COUNT;i++)    //Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ØµÄ¸ï¿½ï¿½ï¿½
 	{
 		for (j=0;j<FACTORY_COUNT+1;j++)
-		{           //Ä³Ò»ÌõÂ·¾¶ÉÏµÄËùÓÐ±ßÉÏÐÅÏ¢ËØ¶¼¼ÓÏàÍ¬Öµ£¬ÓÉÕâÒ»ÌõÂ·¾¶µÄ×Ü¹¦¾ö¶¨£¬×Ü¹¦Ô½ÉÙ£¬Ôö¼ÓµÄÐÅÏ¢ËØ¾ÍÔ½¶à
+		{           //Ä³Ò»ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½Ô½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ï¢ï¿½Ø¾ï¿½Ô½ï¿½ï¿½
 			pheromone[antInfo[i].tabuRoute[j]][antInfo[i].tabuRoute[j+1]]+=PHEROMONE_ADD_CONST/distance[antInfo[i].tabuRoute[j]][antInfo[i].tabuRoute[j+1]];
 		}
 	}
 	return ;
 }
-double Calculate_Total_Work_Function(struct factory *factoryInfo,int *tabuRoute)     //¼ÆËã×Ü¹¦
+double Calculate_Total_Work_Function(struct factory *factoryInfo,int *tabuRoute)     //ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½
 {
-	int i,externd;                                              //externd¾àÀëµÄ±êÊ¶
-	double distanceTotal[FACTORY_COUNT+1]={0.0},result=0.0;         //³õÊ¼»¯¾àÀëÎª0
-	distanceTotal[0]=Distance_Function(0,tabuRoute[1],factoryInfo);   //ÏÈ¼ÆËã³ö´ÓÅäËÍÖÐÐÄµ½´ïµÚÒ»¸öÏÂÓÎ¹¤³§µÄ¾àÀë£¬×öÎªÏÂÃæµþ¼ÓµÄ»ù´¡
+	int i,externd;                                              //externdï¿½ï¿½ï¿½ï¿½Ä±ï¿½Ê¶
+	double distanceTotal[FACTORY_COUNT+1]={0.0},result=0.0;         //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª0
+	distanceTotal[0]=Distance_Function(0,tabuRoute[1],factoryInfo);   //ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ë£¬ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄ»ï¿½ï¿½ï¿½
 	for (externd=1;externd<FACTORY_COUNT+1;externd++)
 	{    
 		distanceTotal[tabuRoute[externd]]=distanceTotal[tabuRoute[externd-1]]+Distance_Function(tabuRoute[externd-1],tabuRoute[externd],factoryInfo);   
-	}                                 //Í¨¹ýµþ¼ÓµÄ·½Ê½¼ÆËãÅäËÍÖÐÐÄÓë¸÷¸öÏÂÓÎ¹¤³§µÄ¾àÀë
+	}                                 //Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄ·ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
 	for (i=0;i<FACTORY_COUNT;i++)
 	{	
-		result+=distanceTotal[tabuRoute[i]]*(factoryInfo[tabuRoute[i+1]].factoryD);	//È«³ÌµÄ¹¦Îª¸÷¸öµãµÄ¹¦µÄ×ÜºÍ		
+		result+=distanceTotal[tabuRoute[i]]*(factoryInfo[tabuRoute[i+1]].factoryD);	//È«ï¿½ÌµÄ¹ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½Üºï¿½		
 	}
-	result=result+distanceTotal[tabuRoute[i]]*TRUCK_WIGHT;   //¸÷¸öÏÂÓÎ¹¤³§µÄ¾àÀëÓëÐèÇóµÄ³Ë»ý+¿ÕÔØÊ±±éÀúËùÓÐ½ÚµãËù×÷µÄ¹¦
-	return (result*FRICTION_RATIO);                 //·µ»ØÂìÒÏ×ß¹ýµÄÒ»ÌõÂ·¾¶Ëù×÷µÄ×Ü¹¦
+	result=result+distanceTotal[tabuRoute[i]]*TRUCK_WIGHT;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³Ë»ï¿½+ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½
+	return (result*FRICTION_RATIO);                 //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½
 }
-double Distance_Function(int source,int destence,struct factory *factoryInfo)    //¼ÆËãÁ½¸ö×ø±êµãÖ®¼äµÄ¾àÀë
+double Distance_Function(int source,int destence,struct factory *factoryInfo)    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
 {	
 	double result;
 	result=sqrt(pow((factoryInfo[destence].factoryX-factoryInfo[source].factoryX),2)+pow((factoryInfo[destence].factoryY-factoryInfo[source].factoryY),2)); 
-	//¼ÆËãÁ½µãÖ®¼äµÄ¾àÀë 
-	return result;  //·µ»ØÁ½µãÖ®¼äµÄ¾àÀë
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ 
+	return result;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
 }
 
 
